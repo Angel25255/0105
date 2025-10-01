@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carta para Ti mi amor 💌</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: #f8f1f4;
+      overflow: hidden;
+    }
+
+    /* Pantalla inicial */
+    .panel {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      transition: opacity 1s ease;
+    }
+    .fade-out { opacity: 0; pointer-events: none; }
+
+    /* Cuadro elegante para clave */
+    .panel-contenedor {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 350px;
+      width: 90%;
+      animation: zoomIn 0.8s ease;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Perrito hecho con HTML y CSS */
+    .dog {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px auto;
+    }
+    .dog .ear {
+      position: absolute;
+      width: 40px; height: 60px;
+      background: #654321;
+      border-radius: 50% 50% 50% 50%;
+      top: 0;
+    }
+    .dog .ear.left { left: -10px; transform: rotate(-20deg); }
+    .dog .ear.right { right: -10px; transform: rotate(20deg); }
+
+    .dog .face {
+      position: absolute;
+      width: 100px; height: 100px;
+      background: #d2b48c;
+      border-radius: 50%;
+      top: 10px; left: 10px;
+      box-shadow: inset -5px -5px #c2a178;
+    }
+
+    .dog .eye {
+      position: absolute;
+      width: 15px; height: 15px;
+      background: #000;
+      border-radius: 50%;
+      top: 40px;
+    }
+    .dog .eye.left { left: 25px; }
+    .dog .eye.right { right: 25px; }
+
+    .dog .nose {
+      position: absolute;
+      width: 20px; height: 15px;
+      background: #000;
+      border-radius: 50% / 60%;
+      top: 60px; left: 50%; transform: translateX(-50%);
+    }
+
+    .dog .mouth {
+      position: absolute;
+      width: 40px; height: 20px;
+      border-bottom: 3px solid #000;
+      border-radius: 0 0 50% 50%;
+      top: 75px; left: 50%; transform: translateX(-50%);
+    }
+
+    .panel h2 { color: #333; margin-bottom: 15px; }
+    .panel input {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      width: 100%;
+      outline: none;
+    }
+    .panel button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #ff3366;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+    .panel button:hover {
+      background: #ff6699;
+    }
+    .pista {
+      color: #777;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    /* Carta */
+    .carta {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+
+    .carta-contenido {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff0f5;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      padding: 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .frases {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .frase {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+      font-size: 22px;
+      color: #444;
+      white-space: pre-line;
+    }
+    .frase.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Rosas */
+    .rosa {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: url('https://i.ibb.co/5M5Xc9S/rose.png') no-repeat center/contain;
+      opacity: 0;
+      transition: all 1.5s ease;
+    }
+    .rosa.left {
+      left: -120px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .rosa.right {
+      right: -120px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .rosa.show {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.2);
+    }
+
+    /* Fuegos artificiales */
+    #fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pantalla de clave -->
+  <div class="panel">
+    <div class="panel-contenedor">
+      <!-- Logo de perrito -->
+      <div class="dog">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="face">
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="nose"></div>
+          <div class="mouth"></div>
+        </div>
+      </div>
+
+      <h2>Ingresa la clave</h2>
+      <input type="password" id="clave" placeholder="Clave...">
+      <button onclick="verificarClave()">Ingresar</button>
+      <div class="pista">Pista: el día que nos conocimos 0501 💖</div>
+    </div>
+  </div>
+
+  <!-- Carta -->
+  <div class="carta">
+    <div class="carta-contenido">
+      <h1>Para Ti mi pancita con mucho amor❤️</h1>
+      <h1>Feliz Aniversario mi amor❤️</h1>
+      <div class="frases" id="frases"></div>
+    </div>
+
+    <!-- Rosas -->
+    <div class="rosa left" id="rosaLeft"></div>
+    <div class="rosa right" id="rosaRight"></div>
+  </div>
+
+  <!-- Música -->
+  <audio id="musica" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Fuegos Artificiales -->
+  <canvas id="fireworks"></canvas>
+
+  <script>
+    const frases = [
+      "💖\nEn este aniversario celebro no solo nuestro amor,\nsino cada sonrisa, cada abrazo y cada instante contigo.\nEres mi refugio, mi paz y mi mayor alegría,\ny deseo pasar toda mi vida a tu lado.",
+
+      "🌹\nHoy recuerdo el día en que comenzamos esta hermosa historia,\nuna historia que con el tiempo se ha vuelto mi tesoro más valioso.\nGracias por amarme, por cuidarme y por hacerme tan feliz,\nte prometo que siempre lucharé por nosotros.",
+
+      "✨\nUn aniversario más contigo es un regalo del destino,\npues me enseñaste lo que significa amar de verdad.\nCada momento a tu lado es único e inolvidable,\ny no hay nada que desee más que un futuro contigo.",
+
+      "🌙\nFeliz aniversario, mi amor, gracias por existir en mi vida,\npor enseñarme que el verdadero amor no tiene límites.\nContigo aprendí a soñar despierto y a creer en lo eterno,\nporque mi mundo cobra sentido solo contigo.",
+
+      "Eres lo mejor que me pasó en la vida 💕",
+      "Cada día contigo es un regalo ✨",
+      "Mi corazón late solo por ti 💓",
+      "Te amo más de lo que imaginas 🌹"
+    ];
+
+    const frasesEl = document.getElementById('frases');
+    const musica = document.getElementById('musica');
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let fireworks = [];
+
+    function verificarClave(){
+      const clave = document.getElementById('clave').value;
+      if(clave === "0501"){
+        document.querySelector('.panel').classList.add('fade-out');
+        setTimeout(()=>{
+          document.querySelector('.carta').style.display = 'block';
+          canvas.style.display = 'block';
+          mostrarFrases();
+          mostrarRosas();
+          musica.volume = 0.3;
+          musica.play();
+          lanzarFuegos();
+        },1000);
+      } else {
+        alert("Clave incorrecta ❌");
+      }
+    }
+
+    async function mostrarFrases(){
+      for(const f of frases){
+        const d = document.createElement('div');
+        d.className = 'frase';
+        d.textContent = f;
+        frasesEl.appendChild(d);
+        await new Promise(r => setTimeout(r, 1500));
+        d.classList.add('show');
+      }
+    }
+
+    function mostrarRosas(){
+      setTimeout(()=>document.getElementById('rosaLeft').classList.add('show'), 500);
+      setTimeout(()=>document.getElementById('rosaRight').classList.add('show'), 1000);
+    }
+
+    // ===== Fuegos Artificiales =====
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    class Firework {
+      constructor(x, y, colors) {
+        this.x = x;
+        this.y = y;
+        this.colors = colors;
+        this.particles = [];
+        for (let i = 0; i < 100; i++) {
+          this.particles.push({
+            x: this.x,
+            y: this.y,
+            angle: random(0, Math.PI * 2),
+            speed: random(1, 5),
+            radius: 2,
+            alpha: 1,
+            decay: random(0.01, 0.03),
+            color: this.colors[Math.floor(Math.random() * this.colors.length)]
+          });
+        }
+      }
+      update() {
+        this.particles.forEach(p => {
+          p.x += Math.cos(p.angle) * p.speed;
+          p.y += Math.sin(p.angle) * p.speed;
+          p.alpha -= p.decay;
+        });
+      }
+      draw() {
+        this.particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.color},${p.alpha})`;
+          ctx.fill();
+        });
+      }
+    }
+
+    function animateFireworks() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      fireworks.forEach((fw, i) => {
+        fw.update();
+        fw.draw();
+        if (fw.particles.every(p => p.alpha <= 0)) {
+          fireworks.splice(i, 1);
+        }
+      });
+      requestAnimationFrame(animateFireworks);
+    }
+
+    function lanzarFuegos() {
+      const colors = ["255,0,0","0,255,0","0,0,255","255,255,0","255,0,255","0,255,255"];
+      setInterval(() => {
+        fireworks.push(new Firework(random(100, canvas.width-100), random(100, canvas.height/2), colors));
+      }, 2000);
+      animateFireworks();
+    }
+  </script>
+</body>
+</html>
